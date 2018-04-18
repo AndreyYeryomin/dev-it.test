@@ -72,7 +72,7 @@ function create_movie_taxonomies(){
 		'menu_name' => __( 'Countries' ),
 	);
 
-	// Добавляем НЕ древовидную таксономию 'writer' (как метки)
+	// Добавляем НЕ древовидную таксономию 'countrie' (как метки)
 	register_taxonomy('countrie', 'movies',array(
 		'hierarchical' => false,
 		'labels' => $labels,
@@ -87,7 +87,7 @@ function create_movie_taxonomies(){
 		'menu_name' => __( 'Year' ),
 	);
 
-	// Добавляем НЕ древовидную таксономию 'writer' (как метки)
+	// Добавляем НЕ древовидную таксономию 'year' (как метки)
 	register_taxonomy('year', 'movies',array(
 		'hierarchical' => false,
 		'labels' => $labels,
@@ -95,14 +95,14 @@ function create_movie_taxonomies(){
 		'query_var' => true,
 		'rewrite' => array( 'slug' => 'year' ),
 	));
-
+// определяем заголовки для 'Actors'
 	$labels = array(
 		'name' => _x( 'Actors', 'taxonomy general name' ),
 		'singular_name' => _x( 'Actor', 'taxonomy singular name' ),
 		'menu_name' => __( 'Actor' ),
 	);
 
-	// Добавляем НЕ древовидную таксономию 'writer' (как метки)
+	// Добавляем НЕ древовидную таксономию 'Actors' (как метки)
 	register_taxonomy('actor', 'movies',array(
 		'hierarchical' => false,
 		'labels' => $labels,
