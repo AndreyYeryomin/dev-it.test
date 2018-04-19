@@ -142,11 +142,11 @@ function movies_shortcode() {
 		}
 		?>
 
-		<div class="col-sm-6 col-md-6 col-lg-6">
-			<div class="col-sm-4 col-md-4 col-lg-4">
+		<div class="col-sm-12 col-md-6 col-lg-6">
+			<div class="col-sm-12 col-md-4 col-lg-4 text-center">
 				<?php echo get_the_post_thumbnail( $post->ID, 'medium', array('class' => 'img-thumbnail') ); ?>	
 			</div>
-			<div  class="col-sm-8 col-md-8 col-lg-8">	
+			<div  class="col-sm-12 col-md-8 col-lg-8">	
 				<h2 id="movies-<?php echo $post->ID; ?>">
 					<a href="<?php echo get_permalink($post->ID); ?>">
 						<?php echo $post->post_title; ?>
