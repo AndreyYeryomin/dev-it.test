@@ -2,7 +2,8 @@
 add_action( 'init', 'create_movie_post_type' );
 add_action( 'init', 'create_movie_taxonomies' );
 add_action('init', 'true_custom_fields');
-add_theme_support( 'movies-thumbnails' ); 
+add_shortcode( 'movies', 'movies_shortcode' ); 
+add_action('admin_head', 'true_add_mce_button');
 
 function true_custom_fields() {
 	add_post_type_support( 'movies', 'custom-fields'); // в качестве первого параметра укажите название типа поста
@@ -114,7 +115,7 @@ function create_movie_taxonomies(){
 	));
 }
 
-function movies_shortkod() {
+function movies_shortcode() {
 	$args = array(
 		'numberposts' => 5,
 		'orderby'     => 'date',
@@ -130,7 +131,6 @@ function movies_shortkod() {
 	ob_start();
 	$i=1;
 	foreach ($posts as $post) { 
-
 		$genres = get_terms_movies($post->ID,'genre');
    		$countries = get_terms_movies($post->ID,'countrie');
    		$years = get_terms_movies($post->ID,'year');
@@ -144,7 +144,7 @@ function movies_shortkod() {
 
 		<div class="col-sm-6 col-md-6 col-lg-6">
 			<div class="col-sm-4 col-md-4 col-lg-4">
-				<?php echo get_the_post_thumbnail( $post->ID, 'medium' ); ?>	
+				<?php echo get_the_post_thumbnail( $post->ID, 'medium', array('class' => 'img-thumbnail') ); ?>	
 			</div>
 			<div  class="col-sm-8 col-md-8 col-lg-8">	
 				<h2 id="movies-<?php echo $post->ID; ?>">
@@ -153,28 +153,22 @@ function movies_shortkod() {
 					</a>
 				</h2>
 				<p>	<?php echo $post->post_content; ?></p>
-				<p>
-					<i class="glyphicon glyphicon-film"></i> 
+				<p><i class="glyphicon glyphicon-film"></i> 
 					Genres: <span><?php echo $genres; ?></span>
 				</p>
-				<p>
-					<i class="glyphicon glyphicon-globe"></i> 
+				<p><i class="glyphicon glyphicon-globe"></i> 
 					Countrie: <span><?php echo $countries; ?></span>
 				</p>
-				<p>
-					<i class="glyphicon glyphicon-calendar"></i> 
+				<p><i class="glyphicon glyphicon-calendar"></i> 
 					Year: <span><?php echo $years; ?></span>
 				</p>
-				<p>
-					<i class="glyphicon glyphicon-user"></i> 
+				<p><i class="glyphicon glyphicon-user"></i> 
 					Actors: <span><?php echo $actors; ?></span>
 				</p>
-				<p>
-					<i class="glyphicon glyphicon-calendar"></i> 
+				<p><i class="glyphicon glyphicon-calendar"></i> 
 					Release date: <span class="label" ><?php echo $release_date; ?></span>
 				</p>
-				<p>
-					<i class="glyphicon glyphicon-usd"></i> 
+				<p><i class="glyphicon glyphicon-usd"></i> 
 					Ticket price: <span class="label"><?php echo $ticket_price; ?></span>
 				</p>
 			</div>
@@ -188,7 +182,6 @@ function movies_shortkod() {
     ob_end_clean();
     return $output;
 }
-add_shortcode( 'movies', 'movies_shortkod' );
 
 function true_add_mce_button() {
 	// проверяем права пользователя - может ли он редактировать посты и страницы
@@ -201,7 +194,6 @@ function true_add_mce_button() {
 		add_filter( 'mce_buttons', 'true_register_mce_button' );
 	}
 }
-add_action('admin_head', 'true_add_mce_button');
  
 // В этом функции указываем ссылку на JavaScript-файл кнопки
 function true_add_tinymce_script( $plugin_array ) {
@@ -214,7 +206,7 @@ function true_register_mce_button( $buttons ) {
 	array_push( $buttons, 'true_mce_button' ); // true_mce_button - идентификатор кнопки
 	return $buttons;
 }
-
+//Получаем terms с задаными парам.
 function get_terms_movies($post,$args){
 
 	$terms = get_the_terms($post,$args);
@@ -227,7 +219,7 @@ function get_terms_movies($post,$args){
    	$term_list = implode(',', $term_arr);
    	return $term_list;
 }
-
+//Получаем post_meta с задаными парам.
 function get_movies_meta($post,$args){
 
 	$meta = get_post_meta($post,$args);
